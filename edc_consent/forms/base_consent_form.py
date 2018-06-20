@@ -48,7 +48,7 @@ class BaseConsentForm(ModelForm):
     def clean_identity_with_unique_fields(self):
         cleaned_data = self.cleaned_data
         identity = cleaned_data.get('identity')
-        first_name = cleaned_data.get('first_name')
+        first_name = cleaned_data.get('first_name').upper()
         initials = cleaned_data.get('initials')
         dob = cleaned_data.get('dob')
         unique_together_form = self.unique_together_string(first_name, initials, dob)

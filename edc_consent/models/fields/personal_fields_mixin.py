@@ -18,7 +18,7 @@ class PersonalFieldsMixin(CryptoMixin, models.Model):
 
     first_name = FirstnameField(
         validators=[RegexValidator(
-            regex=r'^([A-Z]*)(\s)([A-Z]*)$',
+            regex=r'^([A-Z]*)$|^([A-Z]*)(\s)([A-Z]*)$',
             message=('Ensure first name consist of letters '
                      'only in upper case, no spaces.')), ],
         null=True,
