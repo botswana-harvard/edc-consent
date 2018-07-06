@@ -67,6 +67,15 @@ class BaseConsentForm(ModelForm):
                     'You wrote \'%(identity)s\'. Please resolve.',
                     params={'existing_identity': consent.identity, 'identity': identity},
                     code='invalid')
+    
+    def clean_full_name_syntax(self):
+        cleaned_data = self.cleaned_data
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+        if first_name != first_name.title():
+            raise ValidationError('First name must start with a capital letter.')
+        elif last_name != last_name.title():
+            raise ValidationError('Last name must start with a capital letter.')
 
     def clean_initials_with_full_name(self):
         cleaned_data = self.cleaned_data

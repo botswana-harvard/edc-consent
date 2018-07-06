@@ -17,19 +17,11 @@ class PersonalFieldsMixin(CryptoMixin, models.Model):
     MAX_AGE_OF_CONSENT = 64
 
     first_name = FirstnameField(
-        validators=[RegexValidator(
-            regex=r'^[A-Z]*(.)$|^[A-Z]*(.)(\s)[A-Z]*$',
-            message=('Ensure first name consist of letters '
-                     'only in upper case.')), ],
         null=True,
     )
 
     last_name = LastnameField(
         verbose_name="Last name",
-        validators=[RegexValidator(
-            regex=r'^[A-Z]*$',
-            message=('Ensure last name consist of letters '
-                     'only in upper case, no spaces.')), ],
         null=True,
     )
 
