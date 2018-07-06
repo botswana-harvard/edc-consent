@@ -28,6 +28,7 @@ class BaseConsentForm(ModelForm):
         cleaned_data = super(BaseConsentForm, self).clean()
         self.clean_identity_and_confirm_identity()
         self.clean_identity_with_unique_fields()
+        self.clean_full_name_syntax()
         self.clean_initials_with_full_name()
         self.clean_dob_relative_to_consent_datetime()
         self.clean_guardian_and_dob()
@@ -73,9 +74,9 @@ class BaseConsentForm(ModelForm):
         first_name = cleaned_data.get("first_name")
         last_name = cleaned_data.get("last_name")
         if first_name != first_name.title():
-            raise ValidationError('First name must start with a capital letter.')
+            raise ValidationError({'first_name':'First name must start with a capital letter.'})
         elif last_name != last_name.title():
-            raise ValidationError('Last name must start with a capital letter.')
+            raise ValidationError({'last_name':'Last name must start with a capital letter.'})
 
     def clean_initials_with_full_name(self):
         cleaned_data = self.cleaned_data
