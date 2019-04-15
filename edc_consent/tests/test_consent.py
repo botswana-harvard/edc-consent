@@ -36,7 +36,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             mommy.make_recipe,
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
-            consent_datetime=self.study_open_datetime)
+            consent_datetime=self.study_open_datetime,
+            version=None)
 
     def test_raises_error_if_no_consent2(self):
         """Asserts a model using the RequiresConsentMixin cannot create
@@ -60,7 +61,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         try:
             CrfOne.objects.create(
                 subject_identifier=subject_identifier,
@@ -78,14 +80,16 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             mommy.make_recipe,
             'edc_consent.subjectconsent',
             dob=self.dob,
-            consent_datetime=self.study_open_datetime)
+            consent_datetime=self.study_open_datetime,
+            version=None)
 
     def test_consent_gets_version(self):
         self.consent_object_factory(version='1.0')
         consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(consent.version, '1.0')
 
     def test_model_gets_version(self):
@@ -95,7 +99,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         crf_one = CrfOne.objects.create(
             subject_identifier=subject_identifier,
             report_datetime=self.study_open_datetime)
@@ -108,7 +113,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         crf_one = CrfOne.objects.create(
             subject_identifier=subject_identifier,
             report_datetime=self.study_open_datetime)
@@ -131,7 +137,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=consent_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(subject_consent.version, '1.0')
         self.assertEqual(
             subject_consent.subject_identifier, subject_identifier)
@@ -205,7 +212,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
         subject_consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
             consent_datetime=self.study_open_datetime + timedelta(days=5),
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(subject_consent.version, '1.0')
         subject_consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
@@ -216,7 +224,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             initials=subject_consent.initials,
             identity=subject_consent.identity,
             confirm_identity=subject_consent.identity,
-            dob=subject_consent.dob)
+            dob=subject_consent.dob,
+            version=None)
         self.assertEqual(subject_consent.version, '1.1')
 
     def test_consent_needs_previous_version3(self):
@@ -240,7 +249,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
         subject_consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(subject_consent.version, '1.0')
         # use a consent datetime within verion 1.2, skipping 1.1, raises
         self.assertRaises(
@@ -254,7 +264,8 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             initials=subject_consent.initials,
             identity=subject_consent.identity,
             confirm_identity=subject_consent.identity,
-            dob=subject_consent.dob)
+            dob=subject_consent.dob,
+            version=None)
 
     def test_consent_periods_cannot_overlap(self):
         self.consent_object_factory(

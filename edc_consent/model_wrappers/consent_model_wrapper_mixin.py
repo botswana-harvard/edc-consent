@@ -19,7 +19,8 @@ class ConsentModelWrapperMixin:
         consent_object = site_consents.get_consent_for_period(
             model=self.consent_model_wrapper_cls.model,
             report_datetime=self.object.report_datetime,
-            consent_group=default_consent_group)
+            consent_group=default_consent_group,
+            version=self.consent_version or None)
         return consent_object
 
     @property

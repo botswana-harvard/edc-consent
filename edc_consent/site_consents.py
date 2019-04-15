@@ -1,14 +1,14 @@
+from copy import deepcopy
 import sys
 
-from copy import deepcopy
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.management.color import color_style
 from django.utils.module_loading import import_module, module_has_submodule
 from edc_base.utils import convert_php_dateformat
 
-from .exceptions import ConsentObjectDoesNotExist
 from .consent_object_validator import ConsentObjectValidator
+from .exceptions import ConsentObjectDoesNotExist
 
 
 class ConsentError(Exception):
@@ -52,7 +52,7 @@ class SiteConsents:
         return [consent for consent in self.consents if consent.model == model]
 
     def get_consent_for_period(self, model=None, report_datetime=None,
-                               consent_group=None):
+                               consent_group=None, version=None):
         """Returns a consent object with a date range that the
         given report_datetime falls within.
         """
@@ -73,6 +73,10 @@ class SiteConsents:
             raise SiteConsentError(
                 f'Date does not fall within the period of any registered consent '
                 f'object. Got {report_datetime}. Expected one of {self.consents}.')
+        if version:
+            for consent_obj in registered_consents:
+                if consent_obj.version == version:
+                    return consent_obj
         return registered_consents[0]
 
     def get_consent(self, model=None, report_datetime=None,

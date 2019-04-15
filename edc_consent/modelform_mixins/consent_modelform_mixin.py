@@ -34,9 +34,11 @@ class ConsentModelFormMixin:
             'consent_datetime') or self.instance.consent_datetime
         if consent_datetime:
             options = dict(
+                model=self._meta.model._meta.label_lower,
                 consent_model=self._meta.model._meta.label_lower,
                 consent_group=self._meta.model._meta.consent_group,
-                report_datetime=consent_datetime)
+                report_datetime=consent_datetime,
+                version=self.cleaned_data.get('version'))
             consent = site_consents.get_consent(**options)
             if consent.updates_versions:
                 ConsentHelper(
@@ -50,10 +52,12 @@ class ConsentModelFormMixin:
         cleaned_data = self.cleaned_data
         try:
             consent_config = site_consents.get_consent(
+                model=self._meta.model._meta.label_lower,
                 report_datetime=cleaned_data.get(
                     'consent_datetime') or self.instance.consent_datetime,
                 consent_model=self._meta.model._meta.label_lower,
-                consent_group=self._meta.model._meta.consent_group
+                consent_group=self._meta.model._meta.consent_group,
+                version=cleaned_data.get('version')
             )
         except (ConsentObjectDoesNotExist, SiteConsentError) as e:
             raise forms.ValidationError(e)

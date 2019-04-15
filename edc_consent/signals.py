@@ -22,7 +22,8 @@ def requires_consent_on_pre_save(instance, raw, **kwargs):
                     model=instance._meta.label_lower,
                     subject_identifier=instance.subject_identifier,
                     report_datetime=instance.report_datetime,
-                    consent_model=consent_model)
+                    consent_model=consent_model,
+                    version=instance.consent_version)
                 instance.consent_version = requires_consent.version
             else:
                 try:
