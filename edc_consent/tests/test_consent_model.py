@@ -1,6 +1,9 @@
 from datetime import timedelta
+
 from dateutil.relativedelta import relativedelta
+from django.contrib.sites.models import Site
 from django.test import TestCase, tag
+
 from model_mommy import mommy
 
 from ..consent import Consent
@@ -8,7 +11,6 @@ from ..field_mixins import IdentityFieldsMixinError
 from ..site_consents import site_consents
 from .dates_test_mixin import DatesTestMixin
 from .models import SubjectConsent
-from django.contrib.sites.models import Site
 
 
 class TestConsentModel(DatesTestMixin, TestCase):
@@ -81,7 +83,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime + timedelta(days=1),
-            dob=self.get_utcnow() + relativedelta(years=25))
+            dob=self.get_utcnow() + relativedelta(years=25),
+            version=None)
         subject_consent = SubjectConsent.consent.consent_for_period(
             '123456789', self.study_open_datetime + timedelta(days=1))
         self.assertEqual(subject_consent.version, '1.0')
@@ -91,7 +94,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime + timedelta(days=60),
-            dob=self.get_utcnow() + relativedelta(years=25))
+            dob=self.get_utcnow() + relativedelta(years=25),
+            version=None)
         subject_consent = SubjectConsent.consent.consent_for_period(
             '123456789', self.study_open_datetime + timedelta(days=60))
         self.assertEqual(subject_consent.version, '2.0')
@@ -105,7 +109,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(consent.version, '1.0')
         consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
@@ -113,7 +118,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime + timedelta(days=51),
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(consent.version, '2.0')
         consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
@@ -121,7 +127,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime + timedelta(days=101),
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(consent.version, '3.0')
 
     def test_model_updates2(self):
@@ -133,7 +140,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(consent.version, '1.0')
         consent = mommy.make_recipe(
             'edc_consent.subjectconsent',
@@ -141,7 +149,8 @@ class TestConsentModel(DatesTestMixin, TestCase):
             identity=identity,
             confirm_identity=identity,
             consent_datetime=self.study_open_datetime + timedelta(days=101),
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         self.assertEqual(consent.version, '3.0')
 
     def test_manager(self):

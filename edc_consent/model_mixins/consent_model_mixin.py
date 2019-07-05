@@ -85,7 +85,7 @@ class ConsentModelMixin(VerificationFieldsMixin, models.Model):
         self.report_datetime = self.consent_datetime
         consent_helper = self.consent_helper_cls(
             model_cls=self.__class__, update_previous=True, **self.__dict__)
-        self.version = consent_helper.version
+        self.version = self.version or consent_helper.version
         self.updates_versions = True if consent_helper.updates_versions else False
         super().save(*args, **kwargs)
 

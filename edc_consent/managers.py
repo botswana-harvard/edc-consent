@@ -18,7 +18,8 @@ class ConsentManager(models.Manager):
         return self.filter(subject_identifier=subject_identifier).order_by(
             'consent_datetime').first()
 
-    def consent_for_period(self, subject_identifier=None, report_datetime=None):
+    def consent_for_period(self, subject_identifier=None,
+                           report_datetime=None, version=None):
         """Returns a consent model instance or None.
         """
         model_obj = None
@@ -26,7 +27,8 @@ class ConsentManager(models.Manager):
             consent_object = site_consents.get_consent_for_period(
                 model=self.model._meta.label_lower,
                 consent_group=self.model._meta.consent_group,
-                report_datetime=report_datetime)
+                report_datetime=report_datetime,
+                version=version)
         except SiteConsentError:
             pass
         else:

@@ -3,6 +3,7 @@ from django.test import tag
 from edc_base.utils import get_utcnow
 from edc_locator.models import SubjectLocator
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
+
 from model_mommy import mommy
 
 from ..exceptions import NotConsentedError
@@ -10,8 +11,8 @@ from ..requires_consent import RequiresConsent
 from ..site_consents import SiteConsentError
 from .consent_test_case import ConsentTestCase
 from .dates_test_mixin import DatesTestMixin
-from .visit_schedules import visit_schedule
 from .models import CrfOne
+from .visit_schedules import visit_schedule
 
 
 class TestRequiresConsent(DatesTestMixin, ConsentTestCase):
@@ -46,7 +47,9 @@ class TestRequiresConsent(DatesTestMixin, ConsentTestCase):
         mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=self.subject_identifier,
-            consent_datetime=self.study_open_datetime + relativedelta(months=1))
+            consent_datetime=self.study_open_datetime +
+            relativedelta(months=1),
+            version=None)
         try:
             RequiresConsent(
                 model='edc_consent.testmodel',
@@ -63,7 +66,9 @@ class TestRequiresConsent(DatesTestMixin, ConsentTestCase):
         consent_obj = mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=self.subject_identifier,
-            consent_datetime=self.study_open_datetime + relativedelta(months=1))
+            consent_datetime=self.study_open_datetime +
+            relativedelta(months=1),
+            version=None)
         self.assertRaises(
             SiteConsentError,
             CrfOne.objects.create,

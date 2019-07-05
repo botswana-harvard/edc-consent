@@ -9,9 +9,9 @@ from .site_consents import site_consents, SiteConsentError
 class RequiresConsent:
 
     def __init__(self, model=None, subject_identifier=None, report_datetime=None,
-                 consent_model=None, consent_group=None):
+                 consent_model=None, consent_group=None, version=None):
 
-        self.version = None
+        self.version = version
         self.model = model
         self.subject_identifier = subject_identifier
         self.consent_model = consent_model
@@ -19,7 +19,8 @@ class RequiresConsent:
         self.consent_object = site_consents.get_consent_for_period(
             model=consent_model,
             consent_group=consent_group,
-            report_datetime=report_datetime)
+            report_datetime=report_datetime,
+            version=self.version)
         self.consent_model_cls = self.consent_object.model_cls
         self.version = self.consent_object.version
         if not self.subject_identifier:
