@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import  path
 
 from .views import HomeView
 from .admin_site import edc_consent_admin
@@ -6,6 +6,6 @@ from .admin_site import edc_consent_admin
 app_name = 'edc_consent'
 
 urlpatterns = [
-    url(r'^admin/', edc_consent_admin.urls),
-    url(r'^', HomeView.as_view(), name='home_url'),
+    path('admin/', edc_consent_admin.urls),
+    path('', HomeView.as_view(), name='home_url'),
 ]
