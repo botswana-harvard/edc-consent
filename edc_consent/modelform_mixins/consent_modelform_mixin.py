@@ -29,7 +29,10 @@ class ConsentModelFormMixin:
         self.clean_identity_and_confirm_identity()
         self.clean_identity_with_unique_fields()
         self.clean_with_registered_subject()
+        self.update_consent()
+        return cleaned_data
 
+    def update_consent(self):
         consent_datetime = self.cleaned_data.get(
             'consent_datetime') or self.instance.consent_datetime
         if consent_datetime:
@@ -45,7 +48,6 @@ class ConsentModelFormMixin:
                     model_cls=self._meta.model,
                     update_previous=False,
                     **self.cleaned_data)
-        return cleaned_data
 
     @property
     def consent_config(self):
