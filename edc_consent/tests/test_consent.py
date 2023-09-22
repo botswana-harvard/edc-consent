@@ -148,7 +148,7 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             report_datetime=consent_datetime)
         self.assertEqual(crf_one.consent_version, '1.0')
         consent_datetime = self.study_open_datetime + timedelta(days=60)
-        subject_consent = mommy.make_recipe(
+        mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=consent_datetime,
