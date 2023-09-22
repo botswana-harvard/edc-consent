@@ -62,11 +62,11 @@ class DatesTestMixin:
         testconsents = []
         if site_consents.consents:
             new_startdate = (
-                site_consents.consents[0].arrow.rstart.floor('hour').datetime -
-                relativedelta(days=cls.study_tdelta.days))
+                site_consents.consents[0].arrow.rstart.floor('hour').datetime
+                - relativedelta(days=cls.study_tdelta.days))
             tdelta = (
-                site_consents.consents[0].arrow.rstart.floor('hour').datetime -
-                new_startdate)
+                site_consents.consents[0].arrow.rstart.floor('hour').datetime
+                - new_startdate)
 
             for consent in site_consents.consents:
                 test_consent = copy.copy(consent)

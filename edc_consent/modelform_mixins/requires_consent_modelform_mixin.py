@@ -37,7 +37,6 @@ class RequiresConsentModelFormMixin:
                 report_datetime=report_datetime)
         except consent.model.DoesNotExist:
             raise forms.ValidationError(
-                '\'{}\' does not exist to cover this subject on {}.'.format(
-                    consent.model._meta.verbose_name,
-                    report_datetime=report_datetime.strftime('Y%-%m-%d %Z')))
+                f"'{consent.model._meta.verbose_name}' does not exist to cover this "
+                f"subject on report_datetime={report_datetime.strftime('%Y-%m-%d %Z')}.")
         return obj

@@ -1,20 +1,20 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
+
 from dateutil.relativedelta import relativedelta
 from django.apps import apps as django_apps
-from django.test import tag
 from edc_registration.models import RegisteredSubject
 from edc_visit_schedule.site_visit_schedules import site_visit_schedules
 from model_mommy import mommy
 
+from .consent_test_case import ConsentTestCase
+from .dates_test_mixin import DatesTestMixin
+from .models import CrfOne
+from .visit_schedules import visit_schedule
 from ..consent import NaiveDatetimeError
 from ..consent_object_validator import ConsentPeriodError, ConsentVersionSequenceError
 from ..consent_object_validator import ConsentPeriodOverlapError
 from ..exceptions import NotConsentedError
 from ..site_consents import SiteConsentError
-from .consent_test_case import ConsentTestCase
-from .dates_test_mixin import DatesTestMixin
-from .models import CrfOne
-from .visit_schedules import visit_schedule
 
 
 class TestConsent(DatesTestMixin, ConsentTestCase):
@@ -133,26 +133,27 @@ class TestConsent(DatesTestMixin, ConsentTestCase):
             version='1.1')
         subject_identifier = '12345'
         consent_datetime = self.study_open_datetime + timedelta(days=10)
-        subject_consent = mommy.make_recipe(
+        subject_consent1 = mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=consent_datetime,
             dob=self.dob,
             version=None)
-        self.assertEqual(subject_consent.version, '1.0')
+        self.assertEqual(subject_consent1.version, '1.0')
         self.assertEqual(
-            subject_consent.subject_identifier, subject_identifier)
-        self.assertEqual(subject_consent.consent_datetime, consent_datetime)
+            subject_consent1.subject_identifier, subject_identifier)
+        self.assertEqual(subject_consent1.consent_datetime, consent_datetime)
         crf_one = CrfOne.objects.create(
             subject_identifier=subject_identifier,
             report_datetime=consent_datetime)
         self.assertEqual(crf_one.consent_version, '1.0')
         consent_datetime = self.study_open_datetime + timedelta(days=60)
-        subject_consent = mommy.make_recipe(
+        mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=subject_identifier,
             consent_datetime=consent_datetime,
-            dob=self.dob)
+            dob=self.dob,
+            version=None)
         crf_one.report_datetime = consent_datetime
         crf_one.save()
         self.assertEqual(crf_one.consent_version, '1.1')

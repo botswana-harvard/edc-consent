@@ -41,8 +41,8 @@ class ConsentObjectValidator:
         """
         for consent in self.consents:
             if consent.model == new_consent.model:
-                if (new_consent.start <= consent.start <= new_consent.end or
-                        new_consent.start <= consent.end <= new_consent.end):
+                if (new_consent.start <= consent.start <= new_consent.end
+                        or new_consent.start <= consent.end <= new_consent.end):
                     raise ConsentPeriodOverlapError(
                         f'Consent period overlaps with an already registered consent.'
                         f'See alrwady registered consent {consent}. '

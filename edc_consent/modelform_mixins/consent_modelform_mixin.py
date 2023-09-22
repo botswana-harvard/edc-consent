@@ -103,14 +103,14 @@ class ConsentModelFormMixin:
                 consent.first_name, consent.initials, consent.dob)
             if unique_together_form != unique_together_model:
                 raise forms.ValidationError(
-                    {'identity': 'Identity \'{}\' is already in use by another '
-                     'subject. See {}.'.format(identity, consent.subject_identifier)})
+                    {'identity': f"Identity '{identity}' is already in use by another "
+                                 f"subject. See {consent.subject_identifier}."})
         for consent in self._meta.model.objects.filter(
                 first_name=first_name, initials=initials, dob=dob):
             if consent.identity != identity:
                 raise forms.ValidationError({
-                    'identity': 'Subject\'s identity was previously reported '
-                    'as \'{}\'.'.format(consent.identity, identity)})
+                    'identity': f"Subject's identity was previously reported "
+                                f"as '{consent.identity}'."})
 
     # ok
     def clean_initials_with_full_name(self):
