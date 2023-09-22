@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/botswana-harvard/edc-consent.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-consent) [![Coverage Status](https://coveralls.io/repos/botswana-harvard/edc-consent/badge.svg?branch=develop&service=github)](https://coveralls.io/github/botswana-harvard/edc-consent?branch=develop)
-
-# edc-consent
+# edc-consent ![Build Status](https://github.com/bhp-code-space/edc-consent/actions/workflows/django.yml/badge.svg) [![Coverage Status](https://codecov.io/gh/bhp-code-space/edc-consent/branch/develop/graph/badge.svg?token=6859cb4a-e7e6-4723-b8f2-398ac0b06935)](https://codecov.io/gh/bhp-code-space/edc-data-manager)
 
 Add classes for the Informed Consent form and process.
 
