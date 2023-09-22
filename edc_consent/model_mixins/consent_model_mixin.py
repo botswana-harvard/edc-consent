@@ -5,19 +5,18 @@ from django.db.models import options
 from django_crypto_fields.fields import EncryptedTextField
 from edc_base.model_validators import datetime_not_future
 from edc_base.sites import CurrentSiteManager
-from edc_base.utils import formatted_age, age
+from edc_base.utils import age, formatted_age
 from edc_protocol.validators import datetime_not_before_study_start
 
 from ..consent_helper import ConsentHelper
 from ..field_mixins import VerificationFieldsMixin
-from ..managers import ObjectConsentManager, ConsentManager
+from ..managers import ConsentManager, ObjectConsentManager
 
 if 'consent_group' not in options.DEFAULT_NAMES:
-    options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('consent_group', )
+    options.DEFAULT_NAMES = options.DEFAULT_NAMES + ('consent_group',)
 
 
 class ConsentModelMixin(VerificationFieldsMixin, models.Model):
-
     """Mixin for a Consent model class such as SubjectConsent.
 
     Declare with edc_identifier's NonUniqueSubjectIdentifierModelMixin
@@ -79,7 +78,7 @@ class ConsentModelMixin(VerificationFieldsMixin, models.Model):
         return (f'{self.subject_identifier} v{self.version}')
 
     def natural_key(self):
-        return (self.subject_identifier_as_pk, )
+        return (self.subject_identifier_as_pk,)
 
     def save(self, *args, **kwargs):
         self.report_datetime = self.consent_datetime
@@ -93,13 +92,13 @@ class ConsentModelMixin(VerificationFieldsMixin, models.Model):
     def age_at_consent(self):
         """Returns a relativedelta.
         """
-        return age(self.dob, self.consent_datetime)
+        return age(self.consent_datetime, self.dob)
 
     @property
     def formatted_age_at_consent(self):
         """Returns a string representation.
         """
-        return formatted_age(self.dob, self.consent_datetime)
+        return formatted_age(self.consent_datetime, self.dob)
 
     class Meta:
         abstract = True
@@ -108,4 +107,4 @@ class ConsentModelMixin(VerificationFieldsMixin, models.Model):
         unique_together = (
             ('first_name', 'dob', 'initials',
              'version'), ('subject_identifier', 'version'))
-        ordering = ('created', )
+        ordering = ('created',)

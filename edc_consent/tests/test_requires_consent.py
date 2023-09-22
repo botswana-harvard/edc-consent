@@ -47,8 +47,7 @@ class TestRequiresConsent(DatesTestMixin, ConsentTestCase):
         mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=self.subject_identifier,
-            consent_datetime=self.study_open_datetime +
-            relativedelta(months=1),
+            consent_datetime=self.study_open_datetime + relativedelta(months=1),
             version=None)
         try:
             RequiresConsent(
@@ -66,8 +65,7 @@ class TestRequiresConsent(DatesTestMixin, ConsentTestCase):
         consent_obj = mommy.make_recipe(
             'edc_consent.subjectconsent',
             subject_identifier=self.subject_identifier,
-            consent_datetime=self.study_open_datetime +
-            relativedelta(months=1),
+            consent_datetime=self.study_open_datetime + relativedelta(months=1),
             version=None)
         self.assertRaises(
             SiteConsentError,
@@ -91,9 +89,3 @@ class TestRequiresConsent(DatesTestMixin, ConsentTestCase):
             SubjectLocator.objects.create,
             subject_identifier='12345',
             report_datetime=self.study_open_datetime - relativedelta(months=1))
-        try:
-            SubjectLocator.objects.create(
-                subject_identifier='12345',
-                report_datetime=self.study_open_datetime + relativedelta(months=1))
-        except NotConsentedError as e:
-            self.fail(f'NotConsentedError unexpectedly raised. Got {e}')

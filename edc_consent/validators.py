@@ -29,7 +29,7 @@ class SubjectTypeValidator:
 class FullNameValidator:
 
     def __init__(self, regex=None):
-        self.regex = regex or re.compile('^[A-Z]{1,50}\, [A-Z]{1,50}$')
+        self.regex = regex or re.compile("^[A-Z]{1,50}, [A-Z]{1,50}$")
 
     def __call__(self, value):
         if not re.match(self.regex, value):

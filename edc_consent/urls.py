@@ -1,7 +1,7 @@
-from django.urls import  path
+from django.urls import path
 
-from .views import HomeView
 from .admin_site import edc_consent_admin
+from .views import HomeView
 
 app_name = 'edc_consent'
 

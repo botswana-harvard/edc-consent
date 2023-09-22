@@ -36,7 +36,7 @@ if settings.APP_NAME == 'edc_consent':
         protocol_name = 'TestApp'
         protocol_title = ''
         study_open_datetime = datetime(
-            2007, 12, 31, 0, 0, 0, tzinfo=gettz('UTC'))
+            1950, 12, 31, 0, 0, 0, tzinfo=gettz('UTC'))
         study_close_datetime = datetime(
             2019, 12, 31, 0, 0, 0, tzinfo=gettz('UTC'))
 
