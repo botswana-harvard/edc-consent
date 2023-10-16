@@ -32,3 +32,7 @@ git+https://github.com/botswana-harvard/edc-timepoint@develop#edc_timepoint
 git+https://github.com/botswana-harvard/edc-visit-schedule@develop#egg=edc_visit_schedule
 git+https://github.com/botswana-harvard/edc-visit-tracking@develop#egg=edc_visit_tracking
 xlwt
+Django~=4.2.5
+python-dateutil~=2.8.2
+Faker~=19.6.2
+setuptools~=68.2.2

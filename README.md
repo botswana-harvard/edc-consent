@@ -1,4 +1,4 @@
-# edc-consent ![Build Status](https://github.com/bhp-code-space/edc-consent/actions/workflows/django.yml/badge.svg) [![Coverage Status](https://codecov.io/gh/bhp-code-space/edc-consent/branch/develop/graph/badge.svg?token=6859cb4a-e7e6-4723-b8f2-398ac0b06935)](https://codecov.io/gh/bhp-code-space/edc-data-manager)
+# edc-consent ![Build Status](https://github.com/bhp-code-space/edc-consent/actions/workflows/django.yml/badge.svg) [![Coverage Status](https://codecov.io/gh/bhp-code-space/edc-consent/branch/develop/graph/badge.svg?token=6859cb4a-e7e6-4723-b8f2-398ac0b06935)](https://codecov.io/gh/bhp-code-space/edc-consent)
 
 Add classes for the Informed Consent form and process.
 
